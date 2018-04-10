@@ -9,15 +9,14 @@ class FineCheese
   validates_presence_of :cheese
 
   form_option :cheese do |f| 
-    f.show_when_equals 'brie', { age: 'How old is your Brie?' }
+    f.show_when_equals 'brie',
+      age: 'How old is your Brie?'
 
-    f.tell_when_equals 'cheddar', {
+    f.tell_when_equals 'cheddar',
       origin: 'Kindly indicate the cheddar country'
-    }
 
-    f.show_and_tell_when_equals 'nacho', {
+    f.show_and_tell_when_equals 'nacho',
       origin: 'Country plz on yer nacho chz'
-    }
   end
 
   form_option :age do |f|
