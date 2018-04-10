@@ -6,6 +6,8 @@ class FineCheese
 
   attr_accessor :age, :cheese, :moldiness, :origin
 
+  validates_presence_of :cheese
+
   form_option :cheese do |f| 
     f.show_when_equals 'brie', { age: 'How old is your Brie?' }
 
@@ -29,27 +31,41 @@ class ShowAndTellTest < Minitest::Test
   end
 
   def test_show_map
-    map = FineCheese.show_and_tell_map
-    assert_includes map, :show
-    assert_includes map[:show], :cheese
-    assert_includes map[:show][:cheese], 'brie'
-    assert_includes map[:show][:cheese], 'nacho'
+    map = FineCheese.show_map
+    assert_includes map, :cheese
+    assert_includes map[:cheese], 'brie'
+    assert_includes map[:cheese], 'nacho'
   end
 
-  def test_tell_map
-    map = FineCheese.show_and_tell_map
-    assert_includes map, :tell
-    assert_includes map[:tell], :cheese
-    assert_includes map[:tell][:cheese], 'cheddar'
-    assert_includes map[:tell][:cheese], 'nacho'
-    assert_includes map[:tell][:age], 42
+  def test_show_map_json
+    assert_equal(
+      "{\"cheese\":{\"brie\":{\"age\":\"How old is your Brie?\"}" +
+        ",\"nacho\":{\"origin\":\"Country plz on yer nacho chz\"}}}",
+      FineCheese.show_map_json
+    )
   end
 
   def test_indifferent_access
-    map = FineCheese.show_and_tell_map
-    assert_includes map, :show
-    assert_includes map, 'show'
-    assert_includes map[:show], :cheese
-    assert_includes map['show'], 'cheese'
+    map = FineCheese.show_map
+    assert_includes map, :cheese
+    assert_includes map, 'cheese'
+    assert_includes map[:cheese], 'brie'
+    assert_includes map['cheese'], :brie
+  end
+
+  def test_dynamic_validation
+    brie = FineCheese.new cheese: nil, age: 42
+    refute brie.valid?
+    assert_includes brie.errors.messages, :cheese
+    refute_includes brie.errors.messages, :origin
+    assert_includes brie.errors.messages, :moldiness
+    assert_equal 'oooh, how moldy is it?', brie.errors.messages[:moldiness].first
+
+    cheddar = FineCheese.new cheese: 'cheddar'
+    refute cheddar.valid?
+    refute_includes cheddar.errors.messages, :age
+    assert_includes cheddar.errors.messages, :origin
+    assert_equal 'Kindly indicate the cheddar country',
+      cheddar.errors.messages[:origin].first
   end
 end

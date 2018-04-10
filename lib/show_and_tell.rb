@@ -12,12 +12,15 @@ module ShowAndTell
   class_methods do
     def form_option(field_name)
       @_show_map ||= {}
-      @_tell_map ||= {}
       yield ConditionGenerator.new(self, field_name)
     end
 
-    def show_and_tell_map
-      ActiveSupport::HashWithIndifferentAccess.new show: @_show_map, tell: @_tell_map
+    def show_map
+      ActiveSupport::HashWithIndifferentAccess.new @_show_map
+    end
+
+    def show_map_json
+      show_map.to_json
     end
   end
 end
