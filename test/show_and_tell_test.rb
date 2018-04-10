@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class FineCheese
@@ -8,11 +10,11 @@ class FineCheese
 
   validates_presence_of :cheese
 
-  form_option :cheese do |f| 
+  form_option :cheese do |f|
     f.show_when_matches 'brie',
       age: 'How old is your Brie?'
 
-    f.tell_when_matches /cheddar/i,
+    f.tell_when_matches 'cheddar',
       origin: 'Kindly indicate the cheddar country'
 
     f.show_and_tell_when_matches 'nacho',
@@ -20,7 +22,7 @@ class FineCheese
   end
 
   form_option :age do |f|
-    f.tell_when_matches /42/, moldiness: 'oooh, how moldy is it?'
+    f.tell_when_matches '[4-9]\d+', moldiness: 'oooh, how moldy is it?'
   end
 end
 
@@ -53,13 +55,6 @@ class ShowAndTellTest < Minitest::Test
   end
 
   def test_dynamic_validation
-    brie = FineCheese.new cheese: nil, age: 42
-    refute brie.valid?
-    assert_includes brie.errors.messages, :cheese
-    assert_includes brie.errors.messages, :moldiness
-    assert_equal 'oooh, how moldy is it?', brie.errors.messages[:moldiness].first
-    refute_includes brie.errors.messages, :origin
-
     cheddar = FineCheese.new cheese: 'cheddar'
     refute cheddar.valid?
     assert_includes cheddar.errors.messages, :origin
@@ -69,6 +64,15 @@ class ShowAndTellTest < Minitest::Test
   end
 
   def test_regexp_validation
+    brie = FineCheese.new cheese: nil, age: 42
+    refute brie.valid?
+    assert_includes brie.errors.messages, :cheese
+    assert_includes brie.errors.messages, :moldiness
+    assert_equal 'oooh, how moldy is it?', brie.errors.messages[:moldiness].first
+    refute_includes brie.errors.messages, :origin
+  end
+
+  def test_case_insensitive_validation
     cheddar_lc = FineCheese.new(cheese: 'cheddar')
     refute cheddar_lc.valid?
     assert_includes cheddar_lc.errors.messages, :origin
