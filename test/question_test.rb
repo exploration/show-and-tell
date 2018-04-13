@@ -17,7 +17,7 @@ class QuestionTest < Minitest::Test
   def test_to_h
     question = some_question
     question.find_or_add_monitor 'brie'
-    expected_hash = { question: 'cheese', monitors: [{answer: 'brie', fields_to_show: []}] }
+    expected_hash = { question: 'cheese', monitors: [{ answer: 'brie', fields_to_show: [] }] }
     assert_equal expected_hash, question.to_h
   end
 

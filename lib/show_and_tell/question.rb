@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShowAndTell
   class Question
     attr_reader :question

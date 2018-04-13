@@ -47,7 +47,7 @@ module ShowAndTell
             field_value.nil? ? false : /#{regexp_str}/i.match(field_value.to_s)
           }
 
-        @base.class_eval do |b|
+        @base.class_eval do
           validates_presence_of field, message: msg, if: validation_logic
         end
       end

@@ -30,7 +30,7 @@ class ShowAndTellTest < Minitest::Test
     refute_nil ::ShowAndTell::VERSION
   end
 
-  def test_to_a
+  def test_to_list
     question_list = FineCheese.show_and_tell_list
     assert_equal 1, question_list.length
     assert_includes question_list.first, :question

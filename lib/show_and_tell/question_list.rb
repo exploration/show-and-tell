@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShowAndTell
   class QuestionList
     def initialize
