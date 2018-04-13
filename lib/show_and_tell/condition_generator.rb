@@ -27,9 +27,9 @@ module ShowAndTell
 
     # Same as 'show_and_tell_when_matches', except only for front-end display.
     def show_when_matches(regexp_str, **fields_to_show)
-      show_map = @base.class_eval('@_show_map')
-      show_map[@field_name] ||= {}
-      show_map[@field_name][regexp_str] = fields_to_show
+      questions = @base.class_eval('show_questions')
+      questions[@field_name] ||= {}
+      questions[@field_name][regexp_str] = fields_to_show
     end
 
     # Same as 'show_and_tell_when_matches', except only for model validation.

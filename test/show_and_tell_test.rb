@@ -31,23 +31,23 @@ class ShowAndTellTest < Minitest::Test
     refute_nil ::ShowAndTell::VERSION
   end
 
-  def test_show_map
-    map = FineCheese.show_map
+  def test_to_h
+    map = FineCheese.to_h
     assert_includes map, :cheese
     assert_includes map[:cheese], 'brie'
     assert_includes map[:cheese], 'nacho'
   end
 
-  def test_show_map_json
+  def test_to_json
     assert_equal(
       "{\"cheese\":{\"brie\":{\"age\":\"How old is your Brie?\"}" +
         ",\"nacho\":{\"origin\":\"Country plz on yer nacho chz\"}}}",
-      FineCheese.show_map_json
+      FineCheese.to_json
     )
   end
 
   def test_indifferent_access
-    map = FineCheese.show_map
+    map = FineCheese.to_h
     assert_includes map, :cheese
     assert_includes map, 'cheese'
     assert_includes map[:cheese], 'brie'
