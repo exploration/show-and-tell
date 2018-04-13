@@ -31,7 +31,7 @@ class ShowAndTellTest < Minitest::Test
   end
 
   def test_to_a
-    question_list = FineCheese.to_a
+    question_list = FineCheese.show_and_tell_list
     assert_equal 1, question_list.length
     assert_includes question_list.first, :question
   end
@@ -39,7 +39,7 @@ class ShowAndTellTest < Minitest::Test
   def test_to_json
     assert_equal(
       "[{\"question\":\"cheese\",\"monitors\":[{\"answer\":\"brie\",\"fields_to_show\":[\"age\"]},{\"answer\":\"nacho\",\"fields_to_show\":[\"origin\"]}]}]",
-      FineCheese.to_json
+      FineCheese.show_and_tell_json
     )
   end
 

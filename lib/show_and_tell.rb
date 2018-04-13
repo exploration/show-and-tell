@@ -26,13 +26,13 @@ module ShowAndTell
       @show_questions ||= ShowAndTell::QuestionList.new
     end
 
-    def to_a
+    def show_and_tell_list
       show_questions.to_a
     end
 
     # `show_questions` is handy for passing the conditional logic tree to the front-end portion of this library, which handles showing/hiding divs + fields based on input values.
-    def to_json
-      show_questions.to_a.to_json
+    def show_and_tell_json
+      show_and_tell_list.to_json
     end
   end
 end
