@@ -25,7 +25,7 @@ module ShowAndTell
       tell_when_matches regexp_str, fields_and_validation_messages
     end
 
-    # TODO: add real description
+    # This is just the "show" part from show_and_tell_when_matches
     def show_when_matches(regexp_str, *fields_to_show)
       questions = @base.class_eval('show_questions')
       question = questions.find_or_add_question(@field_name)
@@ -33,7 +33,7 @@ module ShowAndTell
       fields_to_show.each { |f| monitor.add_fields_to_show f }
     end
 
-    # TODO: add real description
+    # This is just the "tell" part from show_and_tell_when_matches
     def tell_when_matches(regexp_str, **fields_and_validation_messages)
       validate_presence(regexp_str, fields_and_validation_messages)
     end
