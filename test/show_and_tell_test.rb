@@ -11,8 +11,7 @@ class FineCheese
   validates_presence_of :cheese
 
   form_option :cheese do |f|
-    f.show_when_matches 'brie',
-      age: 'How old is your Brie?'
+    f.show_when_matches 'brie', :age
 
     f.tell_when_matches 'cheddar',
       origin: 'Kindly indicate the cheddar country'
@@ -31,27 +30,17 @@ class ShowAndTellTest < Minitest::Test
     refute_nil ::ShowAndTell::VERSION
   end
 
-  def test_to_h
-    map = FineCheese.to_h
-    assert_includes map, :cheese
-    assert_includes map[:cheese], 'brie'
-    assert_includes map[:cheese], 'nacho'
+  def test_to_a
+    question_list = FineCheese.to_a
+    assert_equal 1, question_list.length
+    assert_includes question_list.first, :question
   end
 
   def test_to_json
     assert_equal(
-      "{\"cheese\":{\"brie\":{\"age\":\"How old is your Brie?\"}" +
-        ",\"nacho\":{\"origin\":\"Country plz on yer nacho chz\"}}}",
+      "[{\"question\":\"cheese\",\"monitors\":[{\"answer\":\"brie\",\"fields_to_show\":[\"age\"]},{\"answer\":\"nacho\",\"fields_to_show\":[\"origin\"]}]}]",
       FineCheese.to_json
     )
-  end
-
-  def test_indifferent_access
-    map = FineCheese.to_h
-    assert_includes map, :cheese
-    assert_includes map, 'cheese'
-    assert_includes map[:cheese], 'brie'
-    assert_includes map['cheese'], :brie
   end
 
   def test_dynamic_validation

@@ -19,22 +19,23 @@ module ShowAndTell
 
     # "Show" this field, and also validate its existence, when the contents of '@field_name' in the '@base' class match 'regexp_str'.
     # @param regexp_str [String] - A string, optionally containing Regexp incantations, defining what counts as a match for display or validation.
-    # @param fields_to_show [Hash] - Field name and validation message pairs.
-    def show_and_tell_when_matches(regexp_str, **fields_to_show)
-      show_when_matches regexp_str, fields_to_show
-      tell_when_matches regexp_str, fields_to_show
+    # @param fields_and_validation_messages [Hash] - Field name and validation message pairs.
+    def show_and_tell_when_matches(regexp_str, **fields_and_validation_messages)
+      show_when_matches regexp_str, *fields_and_validation_messages.keys
+      tell_when_matches regexp_str, fields_and_validation_messages
     end
 
-    # Same as 'show_and_tell_when_matches', except only for front-end display.
-    def show_when_matches(regexp_str, **fields_to_show)
+    # TODO: add real description
+    def show_when_matches(regexp_str, *fields_to_show)
       questions = @base.class_eval('show_questions')
-      questions[@field_name] ||= {}
-      questions[@field_name][regexp_str] = fields_to_show
+      question = questions.find_or_add_question(@field_name)
+      monitor = question.find_or_add_monitor(regexp_str)
+      fields_to_show.each { |f| monitor.add_fields_to_show f }
     end
 
-    # Same as 'show_and_tell_when_matches', except only for model validation.
-    def tell_when_matches(regexp_str, **fields_to_show)
-      validate_presence(regexp_str, fields_to_show)
+    # TODO: add real description
+    def tell_when_matches(regexp_str, **fields_and_validation_messages)
+      validate_presence(regexp_str, fields_and_validation_messages)
     end
 
     private

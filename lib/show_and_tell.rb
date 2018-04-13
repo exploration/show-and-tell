@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'show_and_tell/condition_generator'
+require 'show_and_tell/monitor'
+require 'show_and_tell/question'
+require 'show_and_tell/question_list'
 require 'show_and_tell/version'
 
 require 'active_model'
@@ -20,17 +23,16 @@ module ShowAndTell
     end
 
     def show_questions
-      @show_questions ||= {}
+      @show_questions ||= ShowAndTell::QuestionList.new
     end
 
-    # You will call `MyClass.show_questions` when you want to get a hash representing your conditional logic tree.
-    def to_h
-      ActiveSupport::HashWithIndifferentAccess.new show_questions
+    def to_a
+      show_questions.to_a
     end
 
     # `show_questions` is handy for passing the conditional logic tree to the front-end portion of this library, which handles showing/hiding divs + fields based on input values.
     def to_json
-      show_questions.to_json
+      show_questions.to_a.to_json
     end
   end
 end
