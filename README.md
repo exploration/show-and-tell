@@ -22,6 +22,30 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+### Javascript Front-End
+
+To use the Javascript front-end, you'll need to add the following to your `app/assets/javascripts/application.js` file:
+
+```javascript
+//= require show_and_tell
+```
+
+Then, in your HTML, probably in the header just before the body:
+
+```html
+<script> 
+  const show_and_tell = new ShowAndTell
+</script>
+```
+
+And at the beginning of every form that you wish to monitor, you can insert the magic incantation to inject monitoring:
+
+```html
+<%= show_and_tell MyFormClass %>
+```
+
+... where `MyFormClass` is the class name of the form being monitored (for example, `ParentCommentForm` or `CourseForm`, etc.).
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
