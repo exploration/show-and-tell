@@ -17,7 +17,6 @@ module ShowAndTell
   extend ActiveSupport::Concern
 
   class_methods do
-
     def form_option(field_name)
       yield ConditionGenerator.new(self, field_name)
     end
@@ -26,13 +25,13 @@ module ShowAndTell
       @show_questions ||= ShowAndTell::QuestionList.new
     end
 
-    def show_and_tell_list
+    def show_list
       show_questions.to_a
     end
 
     # `show_questions` is handy for passing the conditional logic tree to the front-end portion of this library, which handles showing/hiding divs + fields based on input values.
-    def show_and_tell_json
-      show_and_tell_list.to_json
+    def show_json
+      show_list.to_json
     end
   end
 end
