@@ -27,8 +27,10 @@ class ShowAndTell {
     const question_list = this.getQuestionList(form_name)
     if (question_list) {
       question_list.getQuestionList().forEach(question => {
-        ShowAndTellPage.getGroupElement(question.getQuestion())
-          .removeEventListener('change', function(gel) { return question.showIfMatch(gel) })
+        const el = ShowAndTellPage.getGroupElement(question.getQuestion())
+        if (el) {
+          el.removeEventListener('change', g_el => { return question.showIfMatch(g_el) })
+        }
       })
     }
     return Promise.resolve(form_name)
@@ -45,8 +47,10 @@ class ShowAndTell {
 
   addEventListeners(question_list) {
     question_list.getQuestionList().forEach(question => {
-      ShowAndTellPage.getGroupElement(question.getQuestion())
-        .addEventListener('change', function(gel) { return question.showIfMatch(gel) })
+      const el = ShowAndTellPage.getGroupElement(question.getQuestion())
+      if (el) {
+        el.addEventListener('change', g_el => { return question.showIfMatch(g_el) })
+      }
     })
     return Promise.resolve(question_list)
   }
