@@ -20,7 +20,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Class Setup
+Say you have a class named `FineCheese`. You want to set it up so that if the field `cheese` is given the value "brie", you want to show the `age` field. When `cheese` matches "cheddar", you want to validate the presence of the `origin` field. When `cheese` matches "nacho" you want to both show, and validate the presence of the `origin` field.
+
+When the `age` field is anything above 40 years, you want to validate the presence of the `moldiness` field.
+
+Here's how you set that up:
+
+```ruby
+class FineCheese
+  include ActiveModel::Model
+  include ShowAndTell
+
+  attr_accessor :age, :cheese, :moldiness, :origin
+
+  validates_presence_of :cheese
+
+  form_option :cheese do |f|
+    f.show_when_matches 'brie', :age
+
+    f.tell_when_matches 'cheddar',
+      origin: 'Kindly indicate the cheddar country'
+
+    f.show_and_tell_when_matches 'nacho',
+      origin: 'Country plz on yer nacho chz'
+  end
+
+  form_option :age do |f|
+    f.tell_when_matches '[4-9]\d+', moldiness: 'oooh, how moldy is it?'
+  end
+end
+```
 
 ### Javascript Front-End
 
@@ -33,7 +63,7 @@ To use the Javascript front-end, you'll need to add the following to your `app/a
 Then, in your HTML, probably in the header just before the body:
 
 ```html
-<script> 
+<script>
   const show_and_tell = new ShowAndTell
 </script>
 ```
@@ -41,10 +71,33 @@ Then, in your HTML, probably in the header just before the body:
 And at the bottom of every form that you wish to monitor, you can insert the magic incantation to inject monitoring:
 
 ```html
-<%= show_and_tell_register MyFormClass %>
+<%= show_and_tell_register FineCheese %>
 ```
 
-... where `MyFormClass` is the class name of the form being monitored (for example, `ParentCommentForm` or `CourseForm`, etc.).
+... where `FineCheese` is the class name of the form being monitored (for example, `ParentCommentForm` or `CourseForm`, etc.).
+
+For each field you monitor, you'll want to enclose everything you wish to show/hide in a `sat-field` node of some sort. For example:
+
+```html
+<div sat-field="cheese">
+  Cheese:
+  <label>
+    <input type="radio" name="cheese" value="brie" />
+    Brie
+  </label>
+  <label>
+    <input type="radio" name="cheese" value="nacho" />
+    Nacho
+  </label>            
+</div>
+<div sat-field="age">
+  <label>
+    Age:
+    <input type="text" />
+  </label>
+</div>
+<!-- etc. -->
+```
 
 ## Development
 
