@@ -104,6 +104,7 @@ class ShowAndTellQuestion {
   // This is the function that gets called whenever an element changes.
   showIfMatch() {
     const input_value = ShowAndTellPage.getInputValue(this.getQuestion())
+    if (!input_value) { return }
     this.getMonitors().forEach(monitor => {
       const answer_regexp = new RegExp(monitor.getAnswer())
       monitor.hideFieldsToShow()
@@ -137,6 +138,7 @@ class ShowAndTellMonitor {
 class ShowAndTellPage {
   static getInputValue(field_name) {
     const group_element = ShowAndTellPage.getGroupElement(field_name)
+    if (!group_element) { return null; }
     const input =
       group_element.querySelector("input[type=radio]:checked") ||
       group_element.querySelector("input[type=text]") ||
@@ -150,10 +152,12 @@ class ShowAndTellPage {
   }
 
   static hideGroupElement(field_name) {
-    this.getGroupElement(field_name).classList.add("dn")
+    const el = this.getGroupElement(field_name)
+    if (el) { el.classList.add("dn") }
   }
 
   static showGroupElement(field_name) {
-    this.getGroupElement(field_name).classList.remove("dn")
+    const el = this.getGroupElement(field_name)
+    if (el) { el.classList.remove("dn") }
   }
 }
