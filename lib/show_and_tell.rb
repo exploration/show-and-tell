@@ -6,10 +6,13 @@ require 'show_and_tell/question'
 require 'show_and_tell/question_list'
 require 'show_and_tell/version'
 
+require 'show_and_tell/railtie' if defined?(Rails)
+
 require 'active_model'
 require 'active_support/concern'
 require 'active_support/core_ext/hash/indifferent_access'
 require 'json'
+
 
 # Class methods to be included into any `ActiveModel` class that needs trees of
 # conditional validation.
