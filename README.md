@@ -38,10 +38,10 @@ Then, in your HTML, probably in the header just before the body:
 </script>
 ```
 
-And at the beginning of every form that you wish to monitor, you can insert the magic incantation to inject monitoring:
+And at the bottom of every form that you wish to monitor, you can insert the magic incantation to inject monitoring:
 
 ```html
-<%= show_and_tell MyFormClass %>
+<%= show_and_tell_register MyFormClass %>
 ```
 
 ... where `MyFormClass` is the class name of the form being monitored (for example, `ParentCommentForm` or `CourseForm`, etc.).
