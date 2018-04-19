@@ -106,7 +106,7 @@ class ShowAndTellQuestion {
     const input_value = ShowAndTellPage.getInputValue(this.getQuestion())
     if (!input_value) { return }
     this.getMonitors().forEach(monitor => {
-      const answer_regexp = new RegExp(monitor.getAnswer())
+      const answer_regexp = new RegExp(monitor.getAnswer(), 'i')
       monitor.hideFieldsToShow()
       if (input_value.match(answer_regexp)) { monitor.showFieldsToShow() }
     })
