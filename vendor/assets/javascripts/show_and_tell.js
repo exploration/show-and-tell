@@ -27,7 +27,7 @@ class ShowAndTell {
     const question_list = this.getQuestionList(form_name)
     if (question_list) {
       question_list.getQuestionList().forEach(question => {
-        const el = ShowAndTellPage.getGroupElement(question.getQuestion())
+        const el = ShowAndTellPage.getGroupElement(question.question)
         if (el) {
           el.removeEventListener('change', g_el => { return question.showIfMatch(g_el) })
         }
@@ -46,8 +46,8 @@ class ShowAndTell {
   }
 
   addEventListeners(question_list) {
-    question_list.getQuestionList().forEach(question => {
-      const el = ShowAndTellPage.getGroupElement(question.getQuestion())
+    question_list.question_list.forEach(question => {
+      const el = ShowAndTellPage.getGroupElement(question.question)
       if (el) {
         el.addEventListener('change', g_el => { return question.showIfMatch(g_el) })
       }
@@ -80,33 +80,33 @@ class ShowAndTell {
 
 class ShowAndTellQuestionList {
   constructor(form_data) {
-    this.question_list = form_data.map(question => new ShowAndTellQuestion(question))
+    this._question_list = form_data.map(question => new ShowAndTellQuestion(question))
   }
 
-  getQuestionList() { return this.question_list }
+  get question_list() { return this._question_list }
 
   showAllIfMatch() {
-    this.getQuestionList().forEach(q => q.showIfMatch())
+    this.question_list.forEach(q => q.showIfMatch())
   }
 }
 
 
 class ShowAndTellQuestion {
   constructor(question) {
-    this.question_name = question.question
-    this.monitors = question.monitors.map(m => new ShowAndTellMonitor(m))
+    this._question_name = question.question
+    this._monitors = question.monitors.map(m => new ShowAndTellMonitor(m))
   }
 
-  getMonitors() { return this.monitors }
+  get monitors() { return this._monitors }
 
-  getQuestion() { return this.question_name }
+  get question() { return this._question_name }
 
   // This is the function that gets called whenever an element changes.
   showIfMatch() {
-    const input_value = ShowAndTellPage.getInputValue(this.getQuestion())
+    const input_value = ShowAndTellPage.getInputValue(this.question)
     if (!input_value) { return }
-    this.getMonitors().forEach(monitor => {
-      const answer_regexp = new RegExp(monitor.getAnswer(), 'i')
+    this.monitors.forEach(monitor => {
+      const answer_regexp = new RegExp(monitor.answer, 'i')
       monitor.hideFieldsToShow()
       if (input_value.match(answer_regexp)) { monitor.showFieldsToShow() }
     })
@@ -116,21 +116,21 @@ class ShowAndTellQuestion {
 
 class ShowAndTellMonitor {
   constructor(monitor) {
-    this.answer = monitor.answer
-    this.fields_to_show = monitor.fields_to_show
+    this._answer = monitor.answer
+    this._fields_to_show = monitor.fields_to_show
     this.hideFieldsToShow()
   }
 
-  getAnswer() { return this.answer }
+  get answer() { return this._answer }
 
-  getFieldsToShow() { return this.fields_to_show }
+  get fields_to_show() { return this._fields_to_show }
 
   hideFieldsToShow() {
-    this.getFieldsToShow().forEach(f => ShowAndTellPage.hideGroupElement(f))
+    this.fields_to_show.forEach(f => ShowAndTellPage.hideGroupElement(f))
   }
 
   showFieldsToShow() {
-    this.getFieldsToShow().forEach(f => ShowAndTellPage.showGroupElement(f))
+    this.fields_to_show.forEach(f => ShowAndTellPage.showGroupElement(f))
   }
 }
 
