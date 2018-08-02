@@ -2,5 +2,5 @@
 
 module ShowAndTell
   # You know! It's the version number, silly!
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
 end
