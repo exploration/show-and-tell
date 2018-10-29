@@ -141,6 +141,7 @@ class ShowAndTellPage {
     if (!group_element) { return null; }
     const input =
       group_element.querySelector("input[type=radio]:checked") ||
+      group_element.querySelector("input[type=checkbox]:checked") ||
       group_element.querySelector("input[type=text]") ||
       group_element.querySelector("select")
     if (input) { return input.value }
