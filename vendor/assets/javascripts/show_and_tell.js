@@ -141,9 +141,11 @@ class ShowAndTellPage {
     if (!group_element) { return null; }
     const input =
       group_element.querySelector("input[type=radio]:checked") ||
-      group_element.querySelector("input[type=checkbox]:checked") ||
       group_element.querySelector("input[type=text]") ||
-      group_element.querySelector("select")
+      group_element.querySelector("select") ||
+      group_element.querySelector("input[type=checkbox]:checked") ||
+      // rails will put an empty hidden div before checkbox to simulate "no"
+      (group_element.querySelector("input[type=checkbox]:not(:checked)") ? group_element.querySelector("input[type=hidden]") : false)
     if (input) { return input.value }
     else { return '' }
   }
