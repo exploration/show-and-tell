@@ -48,7 +48,7 @@ module ShowAndTell
           }
 
         @base.class_eval do
-          validates_presence_of field, message: msg, if: validation_logic
+          validates field, exclusion: {in: [nil], message: msg, if: validation_logic}
         end
       end
 
