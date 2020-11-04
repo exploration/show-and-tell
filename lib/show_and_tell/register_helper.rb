@@ -9,6 +9,6 @@ module ShowAndTellRegisterHelper
         #{tl_close if turbolinks}
       </script>
     TEMPLATE
-    defined?(Rails) ? raw(template) : template
+    defined?(raw) ? raw(template) : template
   end 
 end

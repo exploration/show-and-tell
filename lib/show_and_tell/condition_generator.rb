@@ -22,7 +22,7 @@ module ShowAndTell
     # @param fields_and_validation_messages [Hash] - Field name and validation message pairs.
     def show_and_tell_when_matches(regexp_str, **fields_and_validation_messages)
       show_when_matches regexp_str, *fields_and_validation_messages.keys
-      tell_when_matches regexp_str, fields_and_validation_messages
+      tell_when_matches regexp_str, **fields_and_validation_messages
     end
 
     # This is just the "show" part from show_and_tell_when_matches
