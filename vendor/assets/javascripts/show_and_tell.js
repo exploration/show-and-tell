@@ -156,11 +156,11 @@ class ShowAndTellPage {
 
   static hideGroupElement(field_name) {
     const el = this.getGroupElement(field_name)
-    if (el) { el.classList.add("dn") }
+    if (el) { el.classList.add("hidden") }
   }
 
   static showGroupElement(field_name) {
     const el = this.getGroupElement(field_name)
-    if (el) { el.classList.remove("dn") }
+    if (el) { el.classList.remove("hidden") }
   }
 }
